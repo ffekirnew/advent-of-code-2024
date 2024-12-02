@@ -18,10 +18,10 @@ def read_input(file_path) -> tuple[list[int], list[int]]:
 
 
 def main():
-    left, right = read_input("./day-1/input.txt")
+    left, right = read_input("./solutions/day-1/input.txt")
 
     total_distance = reduce(
-        lambda x, y: x + y,
+        lambda left_value, right_value: left_value + right_value,
         [abs(line[0] - line[1]) for line in zip(sorted(left), sorted(right))],
     )
 
