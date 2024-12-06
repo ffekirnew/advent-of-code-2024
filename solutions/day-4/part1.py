@@ -47,7 +47,7 @@ class XMAS_COUNTER:
 
 
 def main():
-    input = read_input("./solutions/day-4/input.txt")
+    input = read_input("./solutions/day-4/test_input.txt")
     xmas_counter = XMAS_COUNTER(input)
     count = xmas_counter()
 

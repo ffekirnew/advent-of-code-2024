@@ -32,18 +32,19 @@ class Printer:
         graph = self._graph.copy()
         inbounds = self._inbounds.copy()
         check_previous = []
-        for page_number in update:
+
+        for curr_page_number in update:
             for page in check_previous:
-                if page in graph[page_number]:
+                if page in graph[curr_page_number]:
                     return False
 
-            if inbounds[page_number]:
-                check_previous.append(page_number)
+            if inbounds[curr_page_number]:
+                check_previous.append(curr_page_number)
                 continue
 
-            for page in [page for page in graph[page_number]]:
+            for page in [page for page in graph[curr_page_number]]:
                 inbounds[page] -= 1
-                graph[page].remove(page_number)
+                graph[page].remove(curr_page_number)
 
         return True
 
@@ -62,7 +63,7 @@ class Printer:
 
 
 def main():
-    ordering_rules, updates = read_input("./solutions/day-5/input.txt")
+    ordering_rules, updates = read_input("./solutions/day-5/test_input.txt")
     printer = Printer(ordering_rules)
 
     total = reduce(
