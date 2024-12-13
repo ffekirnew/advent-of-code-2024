@@ -1,36 +1,26 @@
 import sys
 from collections import namedtuple
-from functools import cache, reduce
 
-DIRECTIONS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 Button = namedtuple("Button", ["dx", "dy"])
 Prize = namedtuple("Prize", ["x", "y"])
-
 Equation = namedtuple("Equation", ["a", "b", "result"])
 
 
 class Machine:
     def __init__(self, button_a: Button, button_b: Button, prize: Prize) -> None:
-        self._a = button_a
-        self._b = button_b
-        self._prize = prize
-
-        self._eq1 = Equation(self._a.dx, self._b.dx, self._prize.x)
-        self._eq2 = Equation(self._a.dy, self._b.dy, self._prize.y)
+        self._eq1 = Equation(button_a.dx, button_b.dx, prize.x)
+        self._eq2 = Equation(button_a.dy, button_b.dy, prize.y)
 
     def solve(self) -> tuple[int, int] | None:
-        nominator = (self._eq1.b * self._eq2.result) - (self._eq2.b * self._eq1.result)
-        denominator = (self._eq2.a * self._eq1.b) - (self._eq2.b * self._eq1.a)
-        a = nominator / denominator
+        a = (self._eq1.b * self._eq2.result - self._eq2.b * self._eq1.result) / (
+            self._eq2.a * self._eq1.b - self._eq2.b * self._eq1.a
+        )
         b = (self._eq1.result - self._eq1.a * a) / self._eq1.b
 
         if a % 1 == 0 and b % 1 == 0:
             return int(a), int(b)
 
         return None
-
-    def __str__(self) -> str:
-        return f"A: {self._a}, B: {self._b}, Prize:{self._prize}"
 
 
 def main():
